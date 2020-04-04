@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>COVID-19 Exploratory Data Analysis | COVID-19 Dashboards</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="COVID-19 Exploratory Data Analysis" />
+<meta name="author" content="Devakumar kp" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="(Almost) Everything You Want To Know About COVID-19." />
+<meta property="og:description" content="(Almost) Everything You Want To Know About COVID-19." />
+<link rel="canonical" href="https://covid19dashboards.com/corona-eda/" />
+<meta property="og:url" content="https://covid19dashboards.com/corona-eda/" />
+<meta property="og:site_name" content="COVID-19 Dashboards" />
+<meta property="og:image" content="https://covid19dashboards.com/images/covid-eda-2-1.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-13T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://covid19dashboards.com/images/covid-eda-2-1.png" />
+<meta property="twitter:title" content="COVID-19 Exploratory Data Analysis" />
+<meta name="twitter:site" content="@HamelHusain" />
+<meta name="twitter:creator" content="@Devakumar kp" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Devakumar kp"},"description":"(Almost) Everything You Want To Know About COVID-19.","@type":"BlogPosting","headline":"COVID-19 Exploratory Data Analysis","url":"https://covid19dashboards.com/corona-eda/","datePublished":"2020-03-13T00:00:00-05:00","dateModified":"2020-03-13T00:00:00-05:00","image":"https://covid19dashboards.com/images/covid-eda-2-1.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://covid19dashboards.com/corona-eda/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://covid19dashboards.com/feed.xml" title="COVID-19 Dashboards" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-4','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>COVID-19 Exploratory Data Analysis | COVID-19 Dashboards</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="COVID-19 Exploratory Data Analysis" />
+<meta name="author" content="Devakumar kp" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="(Almost) Everything You Want To Know About COVID-19." />
+<meta property="og:description" content="(Almost) Everything You Want To Know About COVID-19." />
+<link rel="canonical" href="https://covid19dashboards.com/corona-eda/" />
+<meta property="og:url" content="https://covid19dashboards.com/corona-eda/" />
+<meta property="og:site_name" content="COVID-19 Dashboards" />
+<meta property="og:image" content="https://covid19dashboards.com/images/covid-eda-2-1.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-13T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://covid19dashboards.com/images/covid-eda-2-1.png" />
+<meta property="twitter:title" content="COVID-19 Exploratory Data Analysis" />
+<meta name="twitter:site" content="@HamelHusain" />
+<meta name="twitter:creator" content="@Devakumar kp" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Devakumar kp"},"description":"(Almost) Everything You Want To Know About COVID-19.","@type":"BlogPosting","headline":"COVID-19 Exploratory Data Analysis","url":"https://covid19dashboards.com/corona-eda/","datePublished":"2020-03-13T00:00:00-05:00","dateModified":"2020-03-13T00:00:00-05:00","image":"https://covid19dashboards.com/images/covid-eda-2-1.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://covid19dashboards.com/corona-eda/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://covid19dashboards.com/feed.xml" title="COVID-19 Dashboards" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-4','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">COVID-19 Dashboards</a><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+  
+          <div class="trigger">
+            <a class="page-link" href="https://github.com/github/covid19-dashboard"><svg class="octicon octicon-mark-github octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a><a class="page-link" href="/about/">About</a><a class="page-link" href="/related/">Related</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+        </nav></div>
+  </header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">COVID-19 Exploratory Data Analysis</h1><p class="page-description">(Almost) Everything You Want To Know About COVID-19.</p><p class="post-meta post-meta-title"><!-- <time class="dt-published" datetime="2020-03-13T00:00:00-05:00" itemprop="datePublished">
+        Mar 13, 2020
+      </time> -->by 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Devakumar kp</span></span>
+    </p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#EDA">EDA</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/github/covid19-dashboard/tree/master/_notebooks/2020-03-13-EDA.ipynb" role="button">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div><div class="px-2">
+    <a href="https://colab.research.google.com/github/github/covid19-dashboard/blob/master/_notebooks/2020-03-13-EDA.ipynb">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#World-Wide-Totals">World-Wide Totals </a></li>
+<li class="toc-entry toc-h1"><a href="#Progression-of-Virus-Over-Time">Progression of Virus Over Time </a></li>
+<li class="toc-entry toc-h1"><a href="#Maps">Maps </a></li>
+<li class="toc-entry toc-h1"><a href="#Top-20-Countries">Top 20 Countries </a></li>
+<li class="toc-entry toc-h1"><a href="#Composition-of-Cases">Composition of Cases </a></li>
+<li class="toc-entry toc-h1"><a href="#Epidemic-Span">Epidemic Span </a></li>
+<li class="toc-entry toc-h1"><a href="#China-vs.-Not-China">China vs. Not China </a></li>
+<li class="toc-entry toc-h1"><a href="#Data-By-Country">Data By Country </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Top-50-Countries-By-Confirmed-Cases">Top 50 Countries By Confirmed Cases </a></li>
+<li class="toc-entry toc-h3"><a href="#Top-25-Countries-By-Deaths-Reported">Top 25 Countries By Deaths Reported </a></li>
+<li class="toc-entry toc-h2"><a href="#Top-25-Chinese-Provinces-By-Confirmed-Cases">Top 25 Chinese Provinces By Confirmed Cases </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Related-Work">Related Work </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-03-13-EDA.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These visualizations were made by <a href="https://twitter.com/imdevskp">Devakumar kp</a>.  Original notebook is <a href="https://www.kaggle.com/imdevskp/covid-19-analysis-viz-prediction-comparisons">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="World-Wide-Totals">
+<a class="anchor" href="#World-Wide-Totals" aria-hidden="true"><span class="octicon octicon-link"></span></a>World-Wide Totals<a class="anchor-link" href="#World-Wide-Totals"> </a>
+</h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<style type="text/css">
+    #T_184c1f16_766d_11ea_8e5d_000d3a701d11row0_col1 {
+            background-color:  #fbb4ae;
+            color:  #000000;
+        }    #T_184c1f16_766d_11ea_8e5d_000d3a701d11row0_col2 {
+            background-color:  #fbb4ae;
+            color:  #000000;
+        }</style>
+<table id="T_184c1f16_766d_11ea_8e5d_000d3a701d11">
+<thead>    <tr>        <th class="blank level0"></th>        <th class="col_heading level0 col0">Date</th>        <th class="col_heading level0 col1">Confirmed</th>        <th class="col_heading level0 col2">Deaths</th>    </tr>
+</thead>
+<tbody>
+                <tr>
+                        <th id="T_184c1f16_766d_11ea_8e5d_000d3a701d11level0_row0" class="row_heading level0 row0">0</th>
+                        <td id="T_184c1f16_766d_11ea_8e5d_000d3a701d11row0_col0" class="data row0 col0">2020-03-26 00:00:00</td>
+                        <td id="T_184c1f16_766d_11ea_8e5d_000d3a701d11row0_col1" class="data row0 col1">529591</td>
+                        <td id="T_184c1f16_766d_11ea_8e5d_000d3a701d11row0_col2" class="data row0 col2">23970</td>
+            </tr>
+    </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Progression-of-Virus-Over-Time">
+<a class="anchor" href="#Progression-of-Virus-Over-Time" aria-hidden="true"><span class="octicon octicon-link"></span></a>Progression of Virus Over Time<a class="anchor-link" href="#Progression-of-Virus-Over-Time"> </a>
+</h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div class="flourish-embed flourish-bar-chart-race" data-src="visualisation/1571387"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Maps">
+<a class="anchor" href="#Maps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maps<a class="anchor-link" href="#Maps"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/images/copied_from_nb/covid-eda-1-1.png" alt="">
+<img src="/images/copied_from_nb/covid-eda-1-2.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Top-20-Countries">
+<a class="anchor" href="#Top-20-Countries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Top 20 Countries<a class="anchor-link" href="#Top-20-Countries"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/images/copied_from_nb/covid-eda-4-1.png" alt="">
+<img src="/images/copied_from_nb/covid-eda-4-2.png" alt="">
+<img src="/images/copied_from_nb/covid-eda-4-5.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Composition-of-Cases">
+<a class="anchor" href="#Composition-of-Cases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Composition of Cases<a class="anchor-link" href="#Composition-of-Cases"> </a>
+</h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/images/copied_from_nb/covid-eda-8-1.png" alt="">
+<img src="/images/copied_from_nb/covid-eda-8-2.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Epidemic-Span">
+<a class="anchor" href="#Epidemic-Span" aria-hidden="true"><span class="octicon octicon-link"></span></a>Epidemic Span<a class="anchor-link" href="#Epidemic-Span"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note : In the graph, last day is shown as one day after the last time a new confirmed cases reported in the Country / Region</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/images/copied_from_nb/covid-eda-9-1.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="China-vs.-Not-China">
+<a class="anchor" href="#China-vs.-Not-China" aria-hidden="true"><span class="octicon octicon-link"></span></a>China vs. Not China<a class="anchor-link" href="#China-vs.-Not-China"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/images/copied_from_nb/covid-eda-10-1.png" alt="">
+<img src="/images/copied_from_nb/covid-eda-10-2.png" alt="">
+<img src="/images/copied_from_nb/covid-eda-10-3.png" alt="">
+<img src="/images/copied_from_nb/covid-eda-10-4.png" alt="">
+<img src="/images/copied_from_nb/covid-eda-10-5.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Data-By-Country">
+<a class="anchor" href="#Data-By-Country" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data By Country<a class="anchor-link" href="#Data-By-Country"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Top-50-Countries-By-Confirmed-Cases">
+<a class="anchor" href="#Top-50-Countries-By-Confirmed-Cases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Top 50 Countries By Confirmed Cases<a class="anchor-link" href="#Top-50-Countries-By-Confirmed-Cases"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<style type="text/css">
+    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row0_col1 {
+            background-color:  #67000d;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row0_col2 {
+            background-color:  #fedaca;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row0_col3 {
+            background-color:  #fedbcc;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row1_col1 {
+            background-color:  #73030f;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row1_col2 {
+            background-color:  #fc8a6a;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row1_col3 {
+            background-color:  #fc8d6d;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row2_col1 {
+            background-color:  #79040f;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row2_col2 {
+            background-color:  #67000d;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row2_col3 {
+            background-color:  #67000d;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row3_col1 {
+            background-color:  #dd2a25;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row3_col2 {
+            background-color:  #f85d42;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row3_col3 {
+            background-color:  #ce1a1e;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row4_col1 {
+            background-color:  #f96245;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row4_col2 {
+            background-color:  #fff0e8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row4_col3 {
+            background-color:  #ffebe2;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row5_col1 {
+            background-color:  #fc9b7c;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row5_col2 {
+            background-color:  #fdc9b3;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row5_col3 {
+            background-color:  #f5523a;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row6_col1 {
+            background-color:  #fc9c7d;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row6_col2 {
+            background-color:  #fcb499;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row6_col3 {
+            background-color:  #cc191e;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row7_col1 {
+            background-color:  #fedecf;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row7_col2 {
+            background-color:  #fee9df;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row7_col3 {
+            background-color:  #fb7050;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row8_col1 {
+            background-color:  #fedecf;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row8_col2 {
+            background-color:  #fff2eb;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row8_col3 {
+            background-color:  #fdd7c6;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row9_col1 {
+            background-color:  #fee4d8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row9_col2 {
+            background-color:  #fff2ec;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row9_col3 {
+            background-color:  #fedccd;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row10_col1 {
+            background-color:  #fee7dc;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row10_col2 {
+            background-color:  #ffece4;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row10_col3 {
+            background-color:  #f44f39;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row11_col1 {
+            background-color:  #fee8de;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row11_col2 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row11_col3 {
+            background-color:  #feeae0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row12_col1 {
+            background-color:  #feeae0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row12_col2 {
+            background-color:  #fff1ea;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row12_col3 {
+            background-color:  #fc9c7d;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row13_col1 {
+            background-color:  #ffeee7;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row13_col2 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row13_col3 {
+            background-color:  #fee6da;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row14_col1 {
+            background-color:  #ffefe8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row14_col2 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row14_col3 {
+            background-color:  #fdc9b3;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row15_col1 {
+            background-color:  #ffefe8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row15_col2 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row15_col3 {
+            background-color:  #fdd4c2;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row16_col1 {
+            background-color:  #fff0e8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row16_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row16_col3 {
+            background-color:  #ffeee7;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row17_col1 {
+            background-color:  #fff0e9;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row17_col2 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row17_col3 {
+            background-color:  #fcbba1;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row18_col1 {
+            background-color:  #fff0e9;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row18_col2 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row18_col3 {
+            background-color:  #fcb69b;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row19_col1 {
+            background-color:  #fff0e9;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row19_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row19_col3 {
+            background-color:  #ffeee6;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row20_col1 {
+            background-color:  #fff1ea;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row20_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row20_col3 {
+            background-color:  #fff0e9;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row21_col1 {
+            background-color:  #fff2ec;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row21_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row21_col3 {
+            background-color:  #fee3d6;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row22_col1 {
+            background-color:  #fff2ec;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row22_col2 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row22_col3 {
+            background-color:  #fdcbb6;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row23_col1 {
+            background-color:  #fff2ec;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row23_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row23_col3 {
+            background-color:  #ffeee6;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row24_col1 {
+            background-color:  #fff2ec;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row24_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row24_col3 {
+            background-color:  #fee4d8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row25_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row25_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row25_col3 {
+            background-color:  #ffebe2;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row26_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row26_col2 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row26_col3 {
+            background-color:  #fcbfa7;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row27_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row27_col2 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row27_col3 {
+            background-color:  #fca082;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row28_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row28_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row28_col3 {
+            background-color:  #fff0e9;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row29_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row29_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row29_col3 {
+            background-color:  #fee0d2;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row30_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row30_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row30_col3 {
+            background-color:  #fee9df;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row31_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row31_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row31_col3 {
+            background-color:  #ffefe8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row32_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row32_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row32_col3 {
+            background-color:  #fcc4ad;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row33_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row33_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row33_col3 {
+            background-color:  #fff0e9;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row34_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row34_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row34_col3 {
+            background-color:  #ffece4;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row35_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row35_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row35_col3 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row36_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row36_col2 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row36_col3 {
+            background-color:  #aa1016;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row37_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row37_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row37_col3 {
+            background-color:  #fcaf93;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row38_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row38_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row38_col3 {
+            background-color:  #ffefe8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row39_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row39_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row39_col3 {
+            background-color:  #fff1ea;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row40_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row40_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row40_col3 {
+            background-color:  #fcb499;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row41_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row41_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row41_col3 {
+            background-color:  #fedccd;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row42_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row42_col2 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row42_col3 {
+            background-color:  #ef3c2c;
+            color:  #f1f1f1;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row43_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row43_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row43_col3 {
+            background-color:  #fff0e9;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row44_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row44_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row44_col3 {
+            background-color:  #fed9c9;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row45_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row45_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row45_col3 {
+            background-color:  #fee4d8;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row46_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row46_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row46_col3 {
+            background-color:  #fedccd;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row47_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row47_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row47_col3 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row48_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row48_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row48_col3 {
+            background-color:  #fff2ec;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row49_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row49_col2 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885ba_766d_11ea_8e5d_000d3a701d11row49_col3 {
+            background-color:  #fdd2bf;
+            color:  #000000;
+        }</style>
+<table id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11">
+<thead>    <tr>        <th class="blank level0"></th>        <th class="col_heading level0 col0">Country/Region</th>        <th class="col_heading level0 col1">Confirmed</th>        <th class="col_heading level0 col2">Deaths</th>        <th class="col_heading level0 col3">Mortality Rate</th>    </tr>
+</thead>
+<tbody>
+                <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row0" class="row_heading level0 row0">0</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row0_col0" class="data row0 col0">US</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row0_col1" class="data row0 col1">83836</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row0_col2" class="data row0 col2">1209</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row0_col3" class="data row0 col3">1.440000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row1" class="row_heading level0 row1">1</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row1_col0" class="data row1 col0">China</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row1_col1" class="data row1 col1">81782</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row1_col2" class="data row1 col2">3291</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row1_col3" class="data row1 col3">4.020000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row2" class="row_heading level0 row2">2</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row2_col0" class="data row2 col0">Italy</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row2_col1" class="data row2 col1">80589</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row2_col2" class="data row2 col2">8215</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row2_col3" class="data row2 col3">10.190000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row3" class="row_heading level0 row3">3</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row3_col0" class="data row3 col0">Spain</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row3_col1" class="data row3 col1">57786</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row3_col2" class="data row3 col2">4365</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row3_col3" class="data row3 col3">7.550000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row4" class="row_heading level0 row4">4</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row4_col0" class="data row4 col0">Germany</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row4_col1" class="data row4 col1">43938</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row4_col2" class="data row4 col2">267</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row4_col3" class="data row4 col3">0.610000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row5" class="row_heading level0 row5">5</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row5_col0" class="data row5 col0">France</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row5_col1" class="data row5 col1">29551</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row5_col2" class="data row5 col2">1698</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row5_col3" class="data row5 col3">5.750000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row6" class="row_heading level0 row6">6</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row6_col0" class="data row6 col0">Iran</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row6_col1" class="data row6 col1">29406</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row6_col2" class="data row6 col2">2234</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row6_col3" class="data row6 col3">7.600000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row7" class="row_heading level0 row7">7</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row7_col0" class="data row7 col0">United Kingdom</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row7_col1" class="data row7 col1">11812</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row7_col2" class="data row7 col2">580</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row7_col3" class="data row7 col3">4.910000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row8" class="row_heading level0 row8">8</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row8_col0" class="data row8 col0">Switzerland</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row8_col1" class="data row8 col1">11811</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row8_col2" class="data row8 col2">191</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row8_col3" class="data row8 col3">1.620000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row9" class="row_heading level0 row9">9</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row9_col0" class="data row9 col0">South Korea</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row9_col1" class="data row9 col1">9241</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row9_col2" class="data row9 col2">131</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row9_col3" class="data row9 col3">1.420000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row10" class="row_heading level0 row10">10</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row10_col0" class="data row10 col0">Netherlands</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row10_col1" class="data row10 col1">7468</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row10_col2" class="data row10 col2">435</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row10_col3" class="data row10 col3">5.820000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row11" class="row_heading level0 row11">11</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row11_col0" class="data row11 col0">Austria</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row11_col1" class="data row11 col1">6909</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row11_col2" class="data row11 col2">49</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row11_col3" class="data row11 col3">0.710000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row12" class="row_heading level0 row12">12</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row12_col0" class="data row12 col0">Belgium</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row12_col1" class="data row12 col1">6235</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row12_col2" class="data row12 col2">220</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row12_col3" class="data row12 col3">3.530000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row13" class="row_heading level0 row13">13</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row13_col0" class="data row13 col0">Canada</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row13_col1" class="data row13 col1">4042</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row13_col2" class="data row13 col2">38</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row13_col3" class="data row13 col3">0.940000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row14" class="row_heading level0 row14">14</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row14_col0" class="data row14 col0">Turkey</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row14_col1" class="data row14 col1">3629</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row14_col2" class="data row14 col2">75</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row14_col3" class="data row14 col3">2.070000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row15" class="row_heading level0 row15">15</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row15_col0" class="data row15 col0">Portugal</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row15_col1" class="data row15 col1">3544</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row15_col2" class="data row15 col2">60</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row15_col3" class="data row15 col3">1.690000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row16" class="row_heading level0 row16">16</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row16_col0" class="data row16 col0">Norway</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row16_col1" class="data row16 col1">3369</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row16_col2" class="data row16 col2">14</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row16_col3" class="data row16 col3">0.420000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row17" class="row_heading level0 row17">17</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row17_col0" class="data row17 col0">Brazil</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row17_col1" class="data row17 col1">2985</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row17_col2" class="data row17 col2">77</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row17_col3" class="data row17 col3">2.580000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row18" class="row_heading level0 row18">18</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row18_col0" class="data row18 col0">Sweden</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row18_col1" class="data row18 col1">2840</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row18_col2" class="data row18 col2">77</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row18_col3" class="data row18 col3">2.710000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row19" class="row_heading level0 row19">19</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row19_col0" class="data row19 col0">Australia</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row19_col1" class="data row19 col1">2810</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row19_col2" class="data row19 col2">13</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row19_col3" class="data row19 col3">0.460000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row20" class="row_heading level0 row20">20</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row20_col0" class="data row20 col0">Israel</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row20_col1" class="data row20 col1">2693</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row20_col2" class="data row20 col2">8</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row20_col3" class="data row20 col3">0.300000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row21" class="row_heading level0 row21">21</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row21_col0" class="data row21 col0">Malaysia</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row21_col1" class="data row21 col1">2031</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row21_col2" class="data row21 col2">23</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row21_col3" class="data row21 col3">1.130000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row22" class="row_heading level0 row22">22</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row22_col0" class="data row22 col0">Denmark</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row22_col1" class="data row22 col1">2023</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row22_col2" class="data row22 col2">41</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row22_col3" class="data row22 col3">2.030000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row23" class="row_heading level0 row23">23</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row23_col0" class="data row23 col0">Czechia</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row23_col1" class="data row23 col1">1925</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row23_col2" class="data row23 col2">9</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row23_col3" class="data row23 col3">0.470000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row24" class="row_heading level0 row24">24</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row24_col0" class="data row24 col0">Ireland</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row24_col1" class="data row24 col1">1819</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row24_col2" class="data row24 col2">19</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row24_col3" class="data row24 col3">1.040000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row25" class="row_heading level0 row25">25</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row25_col0" class="data row25 col0">Luxembourg</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row25_col1" class="data row25 col1">1453</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row25_col2" class="data row25 col2">9</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row25_col3" class="data row25 col3">0.620000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row26" class="row_heading level0 row26">26</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row26_col0" class="data row26 col0">Ecuador</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row26_col1" class="data row26 col1">1403</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row26_col2" class="data row26 col2">34</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row26_col3" class="data row26 col3">2.420000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row27" class="row_heading level0 row27">27</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row27_col0" class="data row27 col0">Japan</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row27_col1" class="data row27 col1">1387</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row27_col2" class="data row27 col2">47</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row27_col3" class="data row27 col3">3.390000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row28" class="row_heading level0 row28">28</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row28_col0" class="data row28 col0">Chile</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row28_col1" class="data row28 col1">1306</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row28_col2" class="data row28 col2">4</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row28_col3" class="data row28 col3">0.310000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row29" class="row_heading level0 row29">29</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row29_col0" class="data row29 col0">Poland</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row29_col1" class="data row29 col1">1221</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row29_col2" class="data row29 col2">16</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row29_col3" class="data row29 col3">1.310000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row30" class="row_heading level0 row30">30</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row30_col0" class="data row30 col0">Pakistan</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row30_col1" class="data row30 col1">1201</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row30_col2" class="data row30 col2">9</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row30_col3" class="data row30 col3">0.750000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row31" class="row_heading level0 row31">31</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row31_col0" class="data row31 col0">Thailand</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row31_col1" class="data row31 col1">1045</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row31_col2" class="data row31 col2">4</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row31_col3" class="data row31 col3">0.380000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row32" class="row_heading level0 row32">32</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row32_col0" class="data row32 col0">Romania</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row32_col1" class="data row32 col1">1029</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row32_col2" class="data row32 col2">23</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row32_col3" class="data row32 col3">2.240000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row33" class="row_heading level0 row33">33</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row33_col0" class="data row33 col0">Saudi Arabia</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row33_col1" class="data row33 col1">1012</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row33_col2" class="data row33 col2">3</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row33_col3" class="data row33 col3">0.300000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row34" class="row_heading level0 row34">34</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row34_col0" class="data row34 col0">Finland</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row34_col1" class="data row34 col1">958</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row34_col2" class="data row34 col2">5</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row34_col3" class="data row34 col3">0.520000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row35" class="row_heading level0 row35">35</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row35_col0" class="data row35 col0">South Africa</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row35_col1" class="data row35 col1">927</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row35_col2" class="data row35 col2">0</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row35_col3" class="data row35 col3">0.000000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row36" class="row_heading level0 row36">36</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row36_col0" class="data row36 col0">Indonesia</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row36_col1" class="data row36 col1">893</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row36_col2" class="data row36 col2">78</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row36_col3" class="data row36 col3">8.730000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row37" class="row_heading level0 row37">37</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row37_col0" class="data row37 col0">Greece</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row37_col1" class="data row37 col1">892</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row37_col2" class="data row37 col2">26</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row37_col3" class="data row37 col3">2.910000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row38" class="row_heading level0 row38">38</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row38_col0" class="data row38 col0">Russia</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row38_col1" class="data row38 col1">840</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row38_col2" class="data row38 col2">3</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row38_col3" class="data row38 col3">0.360000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row39" class="row_heading level0 row39">39</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row39_col0" class="data row39 col0">Iceland</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row39_col1" class="data row39 col1">802</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row39_col2" class="data row39 col2">2</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row39_col3" class="data row39 col3">0.250000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row40" class="row_heading level0 row40">40</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row40_col0" class="data row40 col0">India</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row40_col1" class="data row40 col1">727</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row40_col2" class="data row40 col2">20</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row40_col3" class="data row40 col3">2.750000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row41" class="row_heading level0 row41">41</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row41_col0" class="data row41 col0">Diamond Princess</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row41_col1" class="data row41 col1">712</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row41_col2" class="data row41 col2">10</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row41_col3" class="data row41 col3">1.400000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row42" class="row_heading level0 row42">42</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row42_col0" class="data row42 col0">Philippines</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row42_col1" class="data row42 col1">707</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row42_col2" class="data row42 col2">45</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row42_col3" class="data row42 col3">6.360000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row43" class="row_heading level0 row43">43</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row43_col0" class="data row43 col0">Singapore</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row43_col1" class="data row43 col1">683</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row43_col2" class="data row43 col2">2</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row43_col3" class="data row43 col3">0.290000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row44" class="row_heading level0 row44">44</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row44_col0" class="data row44 col0">Peru</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row44_col1" class="data row44 col1">580</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row44_col2" class="data row44 col2">9</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row44_col3" class="data row44 col3">1.550000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row45" class="row_heading level0 row45">45</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row45_col0" class="data row45 col0">Slovenia</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row45_col1" class="data row45 col1">562</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row45_col2" class="data row45 col2">6</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row45_col3" class="data row45 col3">1.070000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row46" class="row_heading level0 row46">46</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row46_col0" class="data row46 col0">Panama</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row46_col1" class="data row46 col1">558</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row46_col2" class="data row46 col2">8</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row46_col3" class="data row46 col3">1.430000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row47" class="row_heading level0 row47">47</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row47_col0" class="data row47 col0">Qatar</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row47_col1" class="data row47 col1">549</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row47_col2" class="data row47 col2">0</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row47_col3" class="data row47 col3">0.000000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row48" class="row_heading level0 row48">48</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row48_col0" class="data row48 col0">Estonia</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row48_col1" class="data row48 col1">538</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row48_col2" class="data row48 col2">1</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row48_col3" class="data row48 col3">0.190000</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11level0_row49" class="row_heading level0 row49">49</th>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row49_col0" class="data row49 col0">Argentina</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row49_col1" class="data row49 col1">502</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row49_col2" class="data row49 col2">9</td>
+                        <td id="T_1ff885ba_766d_11ea_8e5d_000d3a701d11row49_col3" class="data row49 col3">1.790000</td>
+            </tr>
+    </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Top-25-Countries-By-Deaths-Reported">
+<a class="anchor" href="#Top-25-Countries-By-Deaths-Reported" aria-hidden="true"><span class="octicon octicon-link"></span></a>Top 25 Countries By Deaths Reported<a class="anchor-link" href="#Top-25-Countries-By-Deaths-Reported"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<style type="text/css">
+    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row0_col1 {
+            background-color:  #67000d;
+            color:  #f1f1f1;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row1_col1 {
+            background-color:  #f85f43;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row2_col1 {
+            background-color:  #fc8a6a;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row3_col1 {
+            background-color:  #fcb499;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row4_col1 {
+            background-color:  #fdc9b3;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row5_col1 {
+            background-color:  #fedaca;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row6_col1 {
+            background-color:  #feeae0;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row7_col1 {
+            background-color:  #ffece4;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row8_col1 {
+            background-color:  #fff0e8;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row9_col1 {
+            background-color:  #fff1ea;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row10_col1 {
+            background-color:  #fff2eb;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row11_col1 {
+            background-color:  #fff3ed;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row12_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row13_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row14_col1 {
+            background-color:  #fff4ee;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row15_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row16_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row17_col1 {
+            background-color:  #fff4ef;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row18_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row19_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row20_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row21_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row22_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row23_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }    #T_1ff885bb_766d_11ea_8e5d_000d3a701d11row24_col1 {
+            background-color:  #fff5f0;
+            color:  #000000;
+        }</style>
+<table id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11">
+<thead>    <tr>        <th class="blank level0"></th>        <th class="col_heading level0 col0">Country/Region</th>        <th class="col_heading level0 col1">Deaths</th>    </tr>
+</thead>
+<tbody>
+                <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row0" class="row_heading level0 row0">0</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row0_col0" class="data row0 col0">Italy</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row0_col1" class="data row0 col1">8215</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row1" class="row_heading level0 row1">1</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row1_col0" class="data row1 col0">Spain</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row1_col1" class="data row1 col1">4365</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row2" class="row_heading level0 row2">2</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row2_col0" class="data row2 col0">China</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row2_col1" class="data row2 col1">3291</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row3" class="row_heading level0 row3">3</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row3_col0" class="data row3 col0">Iran</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row3_col1" class="data row3 col1">2234</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row4" class="row_heading level0 row4">4</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row4_col0" class="data row4 col0">France</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row4_col1" class="data row4 col1">1698</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row5" class="row_heading level0 row5">5</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row5_col0" class="data row5 col0">US</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row5_col1" class="data row5 col1">1209</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row6" class="row_heading level0 row6">6</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row6_col0" class="data row6 col0">United Kingdom</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row6_col1" class="data row6 col1">580</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row7" class="row_heading level0 row7">7</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row7_col0" class="data row7 col0">Netherlands</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row7_col1" class="data row7 col1">435</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row8" class="row_heading level0 row8">8</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row8_col0" class="data row8 col0">Germany</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row8_col1" class="data row8 col1">267</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row9" class="row_heading level0 row9">9</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row9_col0" class="data row9 col0">Belgium</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row9_col1" class="data row9 col1">220</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row10" class="row_heading level0 row10">10</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row10_col0" class="data row10 col0">Switzerland</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row10_col1" class="data row10 col1">191</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row11" class="row_heading level0 row11">11</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row11_col0" class="data row11 col0">South Korea</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row11_col1" class="data row11 col1">131</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row12" class="row_heading level0 row12">12</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row12_col0" class="data row12 col0">Brazil</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row12_col1" class="data row12 col1">77</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row13" class="row_heading level0 row13">13</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row13_col0" class="data row13 col0">Sweden</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row13_col1" class="data row13 col1">77</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row14" class="row_heading level0 row14">14</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row14_col0" class="data row14 col0">Turkey</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row14_col1" class="data row14 col1">75</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row15" class="row_heading level0 row15">15</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row15_col0" class="data row15 col0">Portugal</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row15_col1" class="data row15 col1">60</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row16" class="row_heading level0 row16">16</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row16_col0" class="data row16 col0">Austria</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row16_col1" class="data row16 col1">49</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row17" class="row_heading level0 row17">17</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row17_col0" class="data row17 col0">Denmark</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row17_col1" class="data row17 col1">41</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row18" class="row_heading level0 row18">18</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row18_col0" class="data row18 col0">Canada</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row18_col1" class="data row18 col1">38</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row19" class="row_heading level0 row19">19</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row19_col0" class="data row19 col0">Malaysia</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row19_col1" class="data row19 col1">23</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row20" class="row_heading level0 row20">20</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row20_col0" class="data row20 col0">Ireland</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row20_col1" class="data row20 col1">19</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row21" class="row_heading level0 row21">21</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row21_col0" class="data row21 col0">Norway</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row21_col1" class="data row21 col1">14</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row22" class="row_heading level0 row22">22</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row22_col0" class="data row22 col0">Australia</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row22_col1" class="data row22 col1">13</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row23" class="row_heading level0 row23">23</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row23_col0" class="data row23 col0">Czechia</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row23_col1" class="data row23 col1">9</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11level0_row24" class="row_heading level0 row24">24</th>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row24_col0" class="data row24 col0">Israel</td>
+                        <td id="T_1ff885bb_766d_11ea_8e5d_000d3a701d11row24_col1" class="data row24 col1">8</td>
+            </tr>
+    </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Top-25-Chinese-Provinces-By-Confirmed-Cases">
+<a class="anchor" href="#Top-25-Chinese-Provinces-By-Confirmed-Cases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Top 25 Chinese Provinces By Confirmed Cases<a class="anchor-link" href="#Top-25-Chinese-Provinces-By-Confirmed-Cases"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<style type="text/css">
+    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row0_col1 {
+            background-color:  #fbb4ae;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row0_col2 {
+            background-color:  #fbb4ae;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row1_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row1_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row2_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row2_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row3_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row3_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row4_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row4_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row5_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row5_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row6_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row6_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row7_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row7_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row8_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row8_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row9_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row9_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row10_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row10_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row11_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row11_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row12_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row12_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row13_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row13_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row14_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row14_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row15_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row15_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row16_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row16_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row17_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row17_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row18_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row18_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row19_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row19_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row20_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row20_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row21_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row21_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row22_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row22_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row23_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row23_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row24_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row24_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row25_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row25_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row26_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row26_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row27_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row27_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row28_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row28_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row29_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row29_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row30_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row30_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row31_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row31_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row32_col1 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }    #T_1ff885bc_766d_11ea_8e5d_000d3a701d11row32_col2 {
+            background-color:  #f2f2f2;
+            color:  #000000;
+        }</style>
+<table id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11">
+<thead>    <tr>        <th class="blank level0"></th>        <th class="col_heading level0 col0">Province/State</th>        <th class="col_heading level0 col1">Confirmed</th>        <th class="col_heading level0 col2">Deaths</th>    </tr>
+</thead>
+<tbody>
+                <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row0" class="row_heading level0 row0">0</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row0_col0" class="data row0 col0">Hubei</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row0_col1" class="data row0 col1">67801</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row0_col2" class="data row0 col2">3169</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row1" class="row_heading level0 row1">1</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row1_col0" class="data row1 col0">Guangdong</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row1_col1" class="data row1 col1">1448</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row1_col2" class="data row1 col2">8</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row2" class="row_heading level0 row2">2</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row2_col0" class="data row2 col0">Henan</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row2_col1" class="data row2 col1">1275</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row2_col2" class="data row2 col2">22</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row3" class="row_heading level0 row3">3</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row3_col0" class="data row3 col0">Zhejiang</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row3_col1" class="data row3 col1">1243</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row3_col2" class="data row3 col2">1</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row4" class="row_heading level0 row4">4</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row4_col0" class="data row4 col0">Hunan</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row4_col1" class="data row4 col1">1018</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row4_col2" class="data row4 col2">4</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row5" class="row_heading level0 row5">5</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row5_col0" class="data row5 col0">Anhui</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row5_col1" class="data row5 col1">990</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row5_col2" class="data row5 col2">6</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row6" class="row_heading level0 row6">6</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row6_col0" class="data row6 col0">Jiangxi</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row6_col1" class="data row6 col1">936</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row6_col2" class="data row6 col2">1</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row7" class="row_heading level0 row7">7</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row7_col0" class="data row7 col0">Shandong</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row7_col1" class="data row7 col1">771</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row7_col2" class="data row7 col2">7</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row8" class="row_heading level0 row8">8</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row8_col0" class="data row8 col0">Jiangsu</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row8_col1" class="data row8 col1">640</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row8_col2" class="data row8 col2">0</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row9" class="row_heading level0 row9">9</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row9_col0" class="data row9 col0">Chongqing</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row9_col1" class="data row9 col1">578</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row9_col2" class="data row9 col2">6</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row10" class="row_heading level0 row10">10</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row10_col0" class="data row10 col0">Beijing</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row10_col1" class="data row10 col1">566</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row10_col2" class="data row10 col2">8</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row11" class="row_heading level0 row11">11</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row11_col0" class="data row11 col0">Sichuan</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row11_col1" class="data row11 col1">547</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row11_col2" class="data row11 col2">3</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row12" class="row_heading level0 row12">12</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row12_col0" class="data row12 col0">Heilongjiang</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row12_col1" class="data row12 col1">484</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row12_col2" class="data row12 col2">13</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row13" class="row_heading level0 row13">13</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row13_col0" class="data row13 col0">Hong Kong</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row13_col1" class="data row13 col1">453</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row13_col2" class="data row13 col2">4</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row14" class="row_heading level0 row14">14</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row14_col0" class="data row14 col0">Shanghai</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row14_col1" class="data row14 col1">451</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row14_col2" class="data row14 col2">5</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row15" class="row_heading level0 row15">15</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row15_col0" class="data row15 col0">Fujian</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row15_col1" class="data row15 col1">328</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row15_col2" class="data row15 col2">1</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row16" class="row_heading level0 row16">16</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row16_col0" class="data row16 col0">Hebei</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row16_col1" class="data row16 col1">319</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row16_col2" class="data row16 col2">6</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row17" class="row_heading level0 row17">17</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row17_col0" class="data row17 col0">Guangxi</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row17_col1" class="data row17 col1">254</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row17_col2" class="data row17 col2">2</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row18" class="row_heading level0 row18">18</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row18_col0" class="data row18 col0">Shaanxi</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row18_col1" class="data row18 col1">253</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row18_col2" class="data row18 col2">3</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row19" class="row_heading level0 row19">19</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row19_col0" class="data row19 col0">Yunnan</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row19_col1" class="data row19 col1">178</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row19_col2" class="data row19 col2">2</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row20" class="row_heading level0 row20">20</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row20_col0" class="data row20 col0">Hainan</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row20_col1" class="data row20 col1">168</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row20_col2" class="data row20 col2">6</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row21" class="row_heading level0 row21">21</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row21_col0" class="data row21 col0">Tianjin</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row21_col1" class="data row21 col1">151</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row21_col2" class="data row21 col2">3</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row22" class="row_heading level0 row22">22</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row22_col0" class="data row22 col0">Guizhou</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row22_col1" class="data row22 col1">146</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row22_col2" class="data row22 col2">2</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row23" class="row_heading level0 row23">23</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row23_col0" class="data row23 col0">Gansu</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row23_col1" class="data row23 col1">136</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row23_col2" class="data row23 col2">2</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row24" class="row_heading level0 row24">24</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row24_col0" class="data row24 col0">Shanxi</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row24_col1" class="data row24 col1">135</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row24_col2" class="data row24 col2">0</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row25" class="row_heading level0 row25">25</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row25_col0" class="data row25 col0">Liaoning</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row25_col1" class="data row25 col1">128</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row25_col2" class="data row25 col2">2</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row26" class="row_heading level0 row26">26</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row26_col0" class="data row26 col0">Jilin</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row26_col1" class="data row26 col1">95</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row26_col2" class="data row26 col2">1</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row27" class="row_heading level0 row27">27</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row27_col0" class="data row27 col0">Inner Mongolia</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row27_col1" class="data row27 col1">89</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row27_col2" class="data row27 col2">1</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row28" class="row_heading level0 row28">28</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row28_col0" class="data row28 col0">Xinjiang</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row28_col1" class="data row28 col1">76</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row28_col2" class="data row28 col2">3</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row29" class="row_heading level0 row29">29</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row29_col0" class="data row29 col0">Ningxia</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row29_col1" class="data row29 col1">75</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row29_col2" class="data row29 col2">0</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row30" class="row_heading level0 row30">30</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row30_col0" class="data row30 col0">Macau</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row30_col1" class="data row30 col1">31</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row30_col2" class="data row30 col2">0</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row31" class="row_heading level0 row31">31</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row31_col0" class="data row31 col0">Qinghai</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row31_col1" class="data row31 col1">18</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row31_col2" class="data row31 col2">0</td>
+            </tr>
+            <tr>
+                        <th id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11level0_row32" class="row_heading level0 row32">32</th>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row32_col0" class="data row32 col0">Tibet</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row32_col1" class="data row32 col1">1</td>
+                        <td id="T_1ff885bc_766d_11ea_8e5d_000d3a701d11row32_col2" class="data row32 col2">0</td>
+            </tr>
+    </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Related-Work">
+<a class="anchor" href="#Related-Work" aria-hidden="true"><span class="octicon octicon-link"></span></a>Related Work<a class="anchor-link" href="#Related-Work"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<a href="https://www.kaggle.com/imdevskp/mers-outbreak-analysis">https://www.kaggle.com/imdevskp/mers-outbreak-analysis</a>  </li>
+<li>
+<a href="https://www.kaggle.com/imdevskp/sars-2003-outbreak-analysis">https://www.kaggle.com/imdevskp/sars-2003-outbreak-analysis</a>  </li>
+<li><a href="https://www.kaggle.com/imdevskp/western-africa-ebola-outbreak-analysis">https://www.kaggle.com/imdevskp/western-africa-ebola-outbreak-analysis</a></li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances --><a class="u-url" href="/corona-eda/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A site that displays up to date COVID-19 stats, powered by fastpages.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/hamelsmu" title="hamelsmu"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/HamelHusain" title="HamelHusain"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
